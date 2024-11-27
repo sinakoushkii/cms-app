@@ -2,15 +2,16 @@ import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { useDispatch } from "react-redux";
-import { addPost } from "../features/post/postSlice";
+import { addPost, updatePost } from "../features/post/postSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Post = () => {
-  const [formData, setFormData] = useState({
-    title: "",
-    caption: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
+  const post = location?.state || { title: "", caption: "" };
+  const [formData, setFormData] = useState(post);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
@@ -23,6 +24,12 @@ const Post = () => {
         caption: "",
       });
     }
+  };
+
+  const editPost = (e) => {
+    e.preventDefault();
+    dispatch(updatePost(formData));
+    navigate("/");
   };
 
   const handleChange = (e) => {
@@ -54,9 +61,13 @@ const Post = () => {
             onChange={handleChange}
           />
           <div className="flex gap-2">
-            {isLoading ? (
-              <Button loading variant="outlined">
-                Loading...
+            {location?.state ? (
+              <Button
+                onClick={(e) => editPost(e)}
+                variant="contained"
+                endIcon={<SendIcon />}
+              >
+                Edit
               </Button>
             ) : (
               <Button
@@ -64,16 +75,15 @@ const Post = () => {
                 variant="contained"
                 endIcon={<SendIcon />}
               >
-                Share
+                share
               </Button>
             )}
-            <Button disabled={isLoading} variant="outlined" color="error">
+            <Button variant="outlined" color="error">
               Cancel
             </Button>
           </div>
         </Box>
       </div>
-      
     </div>
   );
 };

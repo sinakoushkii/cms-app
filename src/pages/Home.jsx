@@ -1,11 +1,15 @@
 import { Button } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import PostCard from "../components/PostCard";
 
 const Home = () => {
   const navigate = useNavigate();
   const allPosts = useSelector((state) => state.post.posts);
+  useEffect(()=>{
+    localStorage.setItem("data", JSON.stringify(allPosts));
+  },[allPosts])
   let sortedArray;
   if (allPosts.length >= 1) {
     sortedArray = allPosts.slice().sort((a, b) => b.id - a.id);
@@ -16,19 +20,18 @@ const Home = () => {
     localStorage.removeItem("currentUser")
     navigate("/login")
   }
-  
+
   return (
     <div className="container mx-auto px-8">
-      <div>
-        {sortedArray &&
+      <div className="flex items-center justify-evenly flex-wrap mt-7 gap-3 h-screen">
+        {sortedArray ?
           sortedArray.map((post) => (
-            <div key={post.id}>
-              <h3>{post.title}</h3>
-              <p>{post.caption}</p>
-            </div>
-          ))}
+           <PostCard key={post.id} title={post.title} caption={post.caption} postId={post.id} />
+          )):
+          <h1>There is no post</h1>
+          }
       </div>
-      <Button onClick={(e)=>logOutHandler(e)} variant="contained" color="error">
+      <Button className="mt-5" onClick={(e)=>logOutHandler(e)} variant="contained" color="error">
         Log out
       </Button>
     </div>
