@@ -73,6 +73,7 @@ const Post = () => {
           </div>
         </Box>
       </div>
+      
     </div>
   );
 };
