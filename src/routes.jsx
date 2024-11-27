@@ -4,6 +4,9 @@ import About from "./pages/About";
 import Layout from "./Layout/Layout";
 import NotFound from "./components/NotFound";
 import Post from "./pages/Post";
+import IdentityLayout from "./Layout/IdentityLayout";
+import Register from "./components/Register";
+import Login from "./components/Login";
 
 const router = createBrowserRouter([
   {
@@ -16,11 +19,22 @@ const router = createBrowserRouter([
     ],
   },
   {
+    element: <IdentityLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+    ],
+  },
+  {
     path: "*",
     element: <Layout />,
-    children: [
-      { index: true, element: <NotFound /> },
-    ],
+    children: [{ index: true, element: <NotFound /> }],
   },
 ]);
 

@@ -18,8 +18,8 @@ const Header = () => {
             <Divider />
             <List className="container mx-auto px-4">
              <div className="flex">
-             {navItems.map((item) => (
-                <ListItem key={item} disablePadding>
+             {navItems.map((item,index) => (
+                <ListItem key={index} disablePadding>
                   <ListItemButton sx={{ textAlign: "center" }}>
                     <Link to={item.path}><ListItemText primary={item.label} /></Link>
                   </ListItemButton>

@@ -1,14 +1,18 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
+
+
 const Layout = () => {
+  let isLoggedIn=false
   return (
     <div>
         <Header />
         <div className='mt-9 pt-9'>
-            <Outlet />
+            {isLoggedIn?<Outlet />
+            : <Navigate to="/login" replace={true} />}
         </div>
         <Footer />
     </div>
